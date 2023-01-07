@@ -16,7 +16,7 @@ const CAS = [
     'toutatice', 'laclasse', 'lyceeconnecte', 'portail-famille', 'cybercolleges42',
     'ac-valdoise', 'ac-lille2', 'moncollege-essonne', 'monbureaunumerique-educonnect',
 
-    'none'
+    'none', 'qrcode'
 ];
 
 module.exports = {
