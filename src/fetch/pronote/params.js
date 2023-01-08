@@ -7,9 +7,8 @@ const { getUUID } = require('../../cipher');
 
 async function getParams(session)
 {
-    const uuid = getUUID(session, session.aesIV);
     const { donnees: params } = await request(session, 'FonctionParametres', {
-        donnees: { Uuid: uuid }
+        donnees: { Uuid: getUUID(session, session.aesIV) }
     });
     const general = params.General;
     if (!general) {
