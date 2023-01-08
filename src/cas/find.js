@@ -77,4 +77,4 @@ async function find(url)
     return result;
 }
 
-module.exports = find;
+module.exports = { find, URLS };

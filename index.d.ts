@@ -470,6 +470,11 @@ export function loginParent(url: string, username: string, password: string, cas
 export const casList: Array<string>;
 
 /**
+ * La liste des CAS disponibles associé à leur URL
+ */
+export const casUrls: Array<string>;
+
+/**
  * Tente de trouver le nom de CAS associé à l'URL de l'instance Pronote donnée. Renvoie `null` si introuvable.
  *
  * @param url L'URL de l'instance Pronote dont laquelle trouver le CAS par lequel il faut passer pour s'y connecter.
@@ -1386,7 +1391,8 @@ export function fetchTimetableDaysAndWeeks(session: PronoteSession): Promise<Pro
 export function fetchMarks(session: PronoteSession, period?: PronotePeriod): Promise<PronoteMarks>;
 export function fetchEvaluations(session: PronoteSession, period?: PronotePeriod): Promise<Array<PronoteEvaluation>>;
 export function fetchAbsences(session: PronoteSession, period?: PronotePeriod, from?: Date, to?: Date): Promise<PronoteAbsences>;
-export function fetchInfos(session: PronoteSession): Promise<PronoteInfos>;
+export function fetchInfos(session: PronoteSession): Promise;
+export function fetchActualites(session: PronoteSession): Promise<PronoteInfo>;
 export function fetchContents(session: PronoteSession, fromWeek?: number, toWeek?: number): Promise<PronoteLessonsContents>;
 export function fetchHomeworks(session: PronoteSession, fromWeek?: number, toWeek?: number): Promise<Array<PronoteHomework>>;
 export function fetchMenu(session: PronoteSession, date?: Date): Promise<PronoteMenu>;

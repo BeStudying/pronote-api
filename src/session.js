@@ -5,6 +5,7 @@ const timetable = require('./fetch/timetable');
 const marks = require('./fetch/marks');
 const evaluations = require('./fetch/evaluations');
 const absences = require('./fetch/absences');
+const actualites = require('./fetch/actualites');
 const infos = require('./fetch/infos');
 const contents = require('./fetch/contents');
 const homeworks = require('./fetch/homeworks');
@@ -20,7 +21,7 @@ const GENERAL_REQUESTS = {
 };
 const REQUESTS = {
     timetable, marks, evaluations, absences, contents,
-    infos, homeworks, menu, files
+    actualites, homeworks, menu, files, infos
 };
 
 class PronoteSession
@@ -74,10 +75,10 @@ function callRequest(method, session, args)
 {
     switch (session.type.name)
     {
-    case 'student':
-        return method(session, session.user, ...args);
-    default:
-        return method(session, ...args);
+        case 'student':
+            return method(session, session.user, ...args);
+        default:
+            return method(session, ...args);
     }
 }
 

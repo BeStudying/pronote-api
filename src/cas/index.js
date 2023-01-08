@@ -1,7 +1,6 @@
 /* eslint-disable array-element-newline */
 
-const find = require('./find');
-
+const { find, URLS } = require('./find');
 const CAS = [
     'ac-besancon', 'ac-bordeaux', 'ac-bordeaux2', 'ac-caen', 'ac-clermont', 'ac-dijon',
     'ac-grenoble', 'ac-lille', 'ac-limoges', 'ac-lyon', 'ac-montpellier',
@@ -21,7 +20,8 @@ const CAS = [
 
 module.exports = {
     getCAS: find,
-    list: CAS
+    list: CAS,
+    urls: URLS
 };
 
 for (const cas of CAS) {
