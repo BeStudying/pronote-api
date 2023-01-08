@@ -10,7 +10,7 @@ async function getParams(session)
     const { donnees: params } = await request(session, 'FonctionParametres', {
         donnees: { Uuid: getUUID(session, session.aesIV) }
     });
-    
+
     const general = params.General;
     if (!general) {
         return;
