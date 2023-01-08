@@ -10,7 +10,7 @@ const ACCOUNTS = ['student', 'parent'];
 async function getMarks(session, user, period)
 {
     const marks = await navigate(session, user, PAGE_NAME, TAB_ID, ACCOUNTS, {
-        Periode: period.name ? toPronote(period) : period
+        Periode: period?.name ? toPronote(period) : period
     });
 
     if (!marks) {
@@ -28,6 +28,8 @@ async function getMarks(session, user, period)
     if (marks.moyGeneraleClasse) {
         result.studentClassAverage = parse(marks.moyGeneraleClasse);
     }
+
+    // console.log(...marks.listeDevoirs.V)
 
     return {
         ...result,

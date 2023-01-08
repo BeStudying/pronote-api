@@ -1,5 +1,5 @@
 const { loginStudent, loginParent } = require('./src/auth');
-const { list: casList, getCAS } = require('./src/cas');
+const { list: casList, urls: casUrls, getCAS } = require('./src/cas');
 const geo = require('./src/geo');
 const errors = require('./src/errors');
 
@@ -16,7 +16,8 @@ const { getFilledDaysAndWeeks, getTimetable } = require('./src/fetch/pronote/tim
 const getMarks = require('./src/fetch/pronote/marks');
 const getEvaluations = require('./src/fetch/pronote/evaluations');
 const getAbsences = require('./src/fetch/pronote/absences');
-const getInfos = require('./src/fetch/pronote/infos');
+const getActualites = require('@dorian-eydoux/pronote-api/src/fetch/pronote/actualites');
+const getInfos = require('@dorian-eydoux/pronote-api/src/fetch/pronote/infos');
 const getContents = require('./src/fetch/pronote/contents');
 const getHomeworks = require('./src/fetch/pronote/homeworks');
 const getMenu = require('./src/fetch/pronote/menu');
@@ -36,6 +37,7 @@ module.exports = {
     login: loginStudent,
     loginParent,
     casList,
+    casUrls,
     getCAS,
     geo,
     errors,
@@ -54,6 +56,7 @@ module.exports = {
     fetchMarks: getMarks,
     fetchEvaluations: getEvaluations,
     fetchAbsences: getAbsences,
+    fetchActualites: getActualites,
     fetchInfos: getInfos,
     fetchContents: getContents,
     fetchHomeworks: getHomeworks,

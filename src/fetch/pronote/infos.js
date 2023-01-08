@@ -1,33 +1,19 @@
-const parse = require('../../data/types');
-const navigate = require('./navigate');
+const parse = require('@dorian-eydoux/pronote-api/src/data/types');
+const navigate = require('@dorian-eydoux/pronote-api/src/fetch/pronote/navigate');
 
-const PAGE_NAME = 'PageActualites';
-const TAB_ID = 8;
-const ACCOUNTS = ['student', 'parent'];
+const PAGE_NAME = 'PageInfosPerso';
+const TAB_ID = 49;
+const ACCOUNTS = ['student'];
 
 async function getInfos(session, user)
 {
-    const infos = await navigate(session, user, PAGE_NAME, TAB_ID, ACCOUNTS, {
-        estAuteur: false
-    });
+    const infos = await navigate(session, user, PAGE_NAME, TAB_ID, ACCOUNTS);
 
     if (!infos) {
         return null;
     }
 
-    return {
-        categories: parse(infos.listeCategories, ({ estDefaut }) => ({
-            isDefault: estDefaut
-        })),
-        infos: parse(infos.listeActualites, ({ dateDebut, elmauteur, listeQuestions }) => ({
-            date: parse(dateDebut),
-            author: parse(elmauteur),
-            content: parse(listeQuestions, ({ texte, listePiecesJointes }) => ({
-                text: parse(texte),
-                files: parse(listePiecesJointes)
-            }))
-        }))
-    };
+    return infos.Informations;
 }
 
 module.exports = getInfos;
