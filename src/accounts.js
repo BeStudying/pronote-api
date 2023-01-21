@@ -1,7 +1,7 @@
 const errors = require('./errors');
 
 const ACCOUNTS = [
-    { name: 'student', value: 'eleve', id: 3 },
+    { name: 'student', value: 'eleve', id: 6 },
     { name: 'parent', value: 'parent', id: 2 },
     { name: 'teacher', value: 'professeur', id: 1 },
     { name: 'attendant', value: 'accompagnant', id: 25 },

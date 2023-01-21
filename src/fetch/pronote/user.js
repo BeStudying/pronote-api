@@ -7,6 +7,8 @@ const { fromPronote } = require('../../data/objects');
 async function getUser(session)
 {
     const { donnees: user } = await request(session, 'ParametresUtilisateur');
+    if(!Object.entries(user).length) return user;
+    
     const { data, authorizations } = getSpecificData(session, user);
 
     const res = user.ressource;

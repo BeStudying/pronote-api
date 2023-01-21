@@ -1,4 +1,4 @@
-const { PNG } = require('pngjs');
+/* const { PNG } = require('pngjs');
 const jsQR = require('jsqr');
 const fs = require('fs');
 
@@ -11,3 +11,4 @@ module.exports = (filePath) => {
     
     return JSON.parse(code.data);
 };
+*/

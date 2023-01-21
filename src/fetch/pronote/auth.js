@@ -1,7 +1,7 @@
 const request = require('../../request');
 const { cipher } = require('../../cipher');
 
-async function getId(session, username, fromCas)
+async function getId(session, username, fromCas, fromMobile = false, uuidAppliMobile = '')
 {
     const { donnees: id } = await request(session, 'Identification', {
         donnees: {
@@ -11,9 +11,9 @@ async function getId(session, username, fromCas)
             pourENT: fromCas,
             enConnexionAuto: false,
             demandeConnexionAuto: false,
-            demandeConnexionAppliMobile: false,
-            demandeConnexionAppliMobileJeton: false,
-            uuidAppliMobile: '',
+            demandeConnexionAppliMobile: fromMobile,
+            demandeConnexionAppliMobileJeton: fromMobile,
+            uuidAppliMobile,
             loginTokenSAV: ''
         }
     });
@@ -33,6 +33,7 @@ async function getAuthKey(session, challenge, key)
             espace: session.type.id
         }
     });
+    console.log(auth)
 
     return auth.cle;
 }

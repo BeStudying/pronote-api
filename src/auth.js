@@ -7,6 +7,7 @@ const PronoteSession = require('./session');
 const getParams = require('./fetch/pronote/params');
 const { getId, getAuthKey } = require('./fetch/pronote/auth');
 const getUser = require('./fetch/pronote/user');
+const uuid = require('@dorian-eydoux/pronote-api/src/cas/qrcode/uuid');
 
 function loginFor(type)
 {
@@ -17,6 +18,11 @@ async function login(url, username, password, cas, account)
 {
     const server = getServer(url);
     const start = await getStart(server, username, password, cas, account);
+    if(!start){
+        throw errors.UNKNOWN_ACCOUNT.drop();
+    }
+
+
     const session = new PronoteSession({
         serverURL: server,
         sessionID: start.h,
@@ -35,9 +41,11 @@ async function login(url, username, password, cas, account)
         throw errors.WRONG_CREDENTIALS.drop();
     }
     if (cas === 'none') {
-        await auth(session, username, password, false);
+        await auth(session, username, password, false, false);
+    } else if (cas === 'qrcode'){
+        await auth(session, start.login, start.token, false, true);
     } else {
-        await auth(session, start.e, start.f, true);
+        await auth(session, start.e, start.f, true, false);
     }
     session.user = await getUser(session);
 
@@ -67,10 +75,11 @@ async function getStart(url, username, password, casName, type)
     return await cas[casName](url, account, username, password);
 }
 
-async function auth(session, username, password, fromCas)
+async function auth(session, username, password, fromCas, fromMobile)
 {
-    const id = await getId(session, username, fromCas);
-    const key = getLoginKey(username, password, id.scramble, fromCas);
+    const uuid4 = uuid();
+    const id = await getId(session, username, fromCas, fromMobile, fromMobile && uuid4 || '');
+    const key = getLoginKey(username, password, id.scramble, fromCas || fromMobile);
 
     let challenge;
     try {

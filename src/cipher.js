@@ -103,7 +103,7 @@ function getUUID(session, iv)
 function getLoginKey(username, password, scramble, fromCas)
 {
     const hash = forge.md.sha256.create().update(scramble || '').update(forge.util.encodeUtf8(password)).digest();
-    const key = (fromCas ? '' : username.toLowerCase()) + hash.toHex().toUpperCase();
+    const key = (fromCas ? '' : username?.toLowerCase()) + hash.toHex().toUpperCase();
 
     return new forge.util.ByteBuffer(forge.util.encodeUtf8(key));
 }
