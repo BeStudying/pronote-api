@@ -446,7 +446,7 @@ export interface PronoteAccountType
  * /!\ N'oubliez pas de sauvegarder session.uuidAppliMobile, session.username et session.jetonConnexionAppliMobile qui vous seront utile lors de la prochaine authentification.
  * 
  * Utilisez le cas 'mobile' pour vous authentifier:
- * username: l'uuid et l'username {@link PronoteMobileAuth}
+ * username: l'uuid et l'identifiant {@link PronoteMobileAuth}
  * password: le dernier jetonConnexionAppliMobile
  * 
  * /!\ L'UUID généré doit être en UPPERCASE et doit impérativement être le même que lors de la première authentification avec le QR Code, au quel cas la connexion sera refusée.

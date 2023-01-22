@@ -45,7 +45,7 @@ async function login(url, username, password, cas, account)
     } else if (cas === 'qrcode'){
         await auth(session, start.login, start.token, false, false, true);
     } else if (cas === 'mobile'){
-        await auth(session, username.username, password, false, true, false, username.uuid);
+        await auth(session, username.identifiant, password, false, true, false, username.uuid);
     } else {
         await auth(session, start.e, start.f, true, false, false);
     }
@@ -78,7 +78,7 @@ async function auth(session, username, password, fromCas, fromMobile, fromQrCode
     const id = await getId(session, username, fromCas, fromMobile, fromQrCode, (fromQrCode || fromMobile) && uuid4 || '');
     const u = id.modeCompLog ? username.toLowerCase() : username;
     const p = id.modeCompMdp ? password.toLowerCase() : password;
-    session.username = u;
+    session.identifiant = u;
     session.uuidAppliMobile = uuid4;
     const key = getLoginKey(u, p, id.donnees.alea, fromCas);
 
