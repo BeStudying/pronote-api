@@ -7,7 +7,7 @@ const PronoteSession = require('./session');
 const getParams = require('./fetch/pronote/params');
 const { getId, getAuthKey } = require('./fetch/pronote/auth');
 const getUser = require('./fetch/pronote/user');
-const uuid = require('@dorian-eydoux/pronote-api/src/cas/qrcode/uuid');
+const uuid = require('./uuid');
 
 function loginFor(type)
 {
@@ -21,7 +21,6 @@ async function login(url, username, password, cas, account)
     if(!start){
         throw errors.UNKNOWN_ACCOUNT.drop();
     }
-
 
     const session = new PronoteSession({
         serverURL: server,
@@ -40,28 +39,26 @@ async function login(url, username, password, cas, account)
     if (!session.params) {
         throw errors.WRONG_CREDENTIALS.drop();
     }
+
     if (cas === 'none') {
-        await auth(session, username, password, false, false);
+        await auth(session, username, password, false, false, false);
     } else if (cas === 'qrcode'){
-        await auth(session, start.login, start.token, false, true);
+        await auth(session, start.login, start.token, false, false, true);
+    } else if (cas === 'mobile'){
+        await auth(session, username.username, password, false, true, false, username.uuid);
     } else {
-        await auth(session, start.e, start.f, true, false);
+        await auth(session, start.e, start.f, true, false, false);
     }
     session.user = await getUser(session);
-
     return session;
 }
 
 function getServer(url)
 {
-    if (url.endsWith('.html')) {
-        return url.substring(0, url.lastIndexOf('/') + 1);
-    }
-
+    url = url.split('/').slice(0, 4).join('/');
     if (!url.endsWith('/')) {
         url += '/';
     }
-
     return url;
 }
 
@@ -75,25 +72,33 @@ async function getStart(url, username, password, casName, type)
     return await cas[casName](url, account, username, password);
 }
 
-async function auth(session, username, password, fromCas, fromMobile)
+async function auth(session, username, password, fromCas, fromMobile, fromQrCode, uuidAppliMobile)
 {
-    const uuid4 = uuid();
-    const id = await getId(session, username, fromCas, fromMobile, fromMobile && uuid4 || '');
-    const key = getLoginKey(username, password, id.scramble, fromCas || fromMobile);
+    const uuid4 = uuidAppliMobile ?? uuid().toUpperCase();
+    const id = await getId(session, username, fromCas, fromMobile, fromQrCode, (fromQrCode || fromMobile) && uuid4 || '');
+    const u = id.modeCompLog ? username.toLowerCase() : username;
+    const p = id.modeCompMdp ? password.toLowerCase() : password;
+    session.username = u;
+    session.uuidAppliMobile = uuid4;
+    const key = getLoginKey(u, p, id.donnees.alea, fromCas);
 
     let challenge;
     try {
-        challenge = decipher(session, id.challenge, { scrambled: true, key });
+        challenge = decipher(session, id.donnees.challenge, { scrambled: true, key });
     } catch (e) {
         throw errors.WRONG_CREDENTIALS.drop();
     }
-
-    const userKey = await getAuthKey(session, challenge, key);
-    if (!userKey) {
+    const auth = await getAuthKey(session, challenge, key);
+    const {cle, jetonConnexionAppliMobile} = auth.donnees
+    if (!cle) {
         throw errors.WRONG_CREDENTIALS.drop();
     }
 
-    session.aesKey = decipher(session, userKey, { key, asBytes: true });
+    if(jetonConnexionAppliMobile){
+        session.jetonConnexionAppliMobile = jetonConnexionAppliMobile;
+    }
+
+    session.aesKey = decipher(session, cle, { key, asBytes: true });
 }
 
 module.exports = {

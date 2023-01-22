@@ -1,8 +1,8 @@
-const { getFileURL } = require('@dorian-eydoux/pronote-api/src/data/files');
-const fromHTML = require('@dorian-eydoux/pronote-api/src/data/html');
-const { withId, checkDuplicates } = require('@dorian-eydoux/pronote-api/src/data/id');
+const { getFileURL } = require('../../src/data/files');
+const fromHTML = require('../data/html');
+const { withId, checkDuplicates } = require('../data/id');
 
-const getActualites = require('@dorian-eydoux/pronote-api/src/fetch/pronote/actualites');
+const getActualites = require('./pronote/actualites');
 
 async function actualites(session, user)
 {

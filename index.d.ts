@@ -440,6 +440,17 @@ export interface PronoteAccountType
  * de ce champ correspond au nom d'un fichier de src/cas/ sans le .js. Par exemple 'ac-montpellier'. Si votre
  * académie n'est pas supportée, vous pouvez ouvrir une issue sur le dépôt GitHub du projet.
  *
+ * Utilisez le cas 'qrcode' pour la première authentification avec le QR Code, voici les paramètres: 
+ * username: les données json brutes du qr code {@link PronoteQrCode}
+ * password: le code pin fourni lors de la création du QR Code sur l'interface Pronote Web. 
+ * /!\ N'oubliez pas de sauvegarder session.uuidAppliMobile, session.username et session.jetonConnexionAppliMobile qui vous seront utile lors de la prochaine authentification.
+ * 
+ * Utilisez le cas 'mobile' pour vous authentifier:
+ * username: l'uuid et l'username {@link PronoteMobileAuth}
+ * password: le dernier jetonConnexionAppliMobile
+ * 
+ * /!\ L'UUID généré doit être en UPPERCASE et doit impérativement être le même que lors de la première authentification avec le QR Code, au quel cas la connexion sera refusée.
+ * 
  * @return La session créée et authentifiée. Ses champs 'params' et 'user' sont donc forcément non-vides.
  */
 export function login(url: string, username: string, password: string, cas?: string): Promise<PronoteStudentSession>;
@@ -2090,3 +2101,15 @@ export interface PronoteMenuLabel extends PronoteObject
     color: string // couleur
 }
 
+export interface PronoteQrCode 
+{
+    jeton: string,
+    login: string,
+    url: string
+}
+
+export interface PronoteMobileAuth
+{
+    uuid: string,
+    username: string
+}

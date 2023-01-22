@@ -10,10 +10,8 @@ const UUIDcreatePart = (length) => {
     return uuidpart;
 }
 
-module.exports = () => {
-    return UUIDcreatePart(4) + '-' +
+module.exports = () => UUIDcreatePart(4) + '-' +
         UUIDcreatePart(2) + '-' +
         UUIDcreatePart(2) + '-' +
         UUIDcreatePart(2) + '-' +
         UUIDcreatePart(6);
-};

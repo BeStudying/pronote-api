@@ -1,5 +1,5 @@
-const parse = require('@dorian-eydoux/pronote-api/src/data/types');
-const navigate = require('@dorian-eydoux/pronote-api/src/fetch/pronote/navigate');
+const parse = require('../../data/types');
+const navigate = require('../../fetch/pronote/navigate');
 
 const PAGE_NAME = 'PageActualites';
 const TAB_ID = 8;

@@ -1,4 +1,4 @@
-const getInfos = require('@dorian-eydoux/pronote-api/src/fetch/pronote/infos');
+const getInfos = require('../fetch/pronote/infos');
 
 async function infos(session, user)
 {
